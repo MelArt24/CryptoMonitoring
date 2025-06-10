@@ -6,9 +6,17 @@ import requests
 import pandas as pd
 import ta
 
+import os
+import json
+from firebase_admin import credentials, initialize_app
+
 # Ініціалізація Firebase Admin SDK
-cred = credentials.Certificate("serviceAccountKey.json")
-firebase_admin.initialize_app(cred)
+cred_json = os.getenv("FIREBASE_CREDENTIALS_JSON")
+cred_dict = json.loads(cred_json)
+cred = credentials.Certificate(cred_dict)
+initialize_app(cred)
+
+#firebase_admin.initialize_app(cred)
 
 app = Flask(__name__)
 
