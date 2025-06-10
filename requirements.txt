@@ -3,3 +3,4 @@ flask
 ta
 pandas
 requests
+gunicorn
