@@ -15,7 +15,7 @@ initialize_app(cred)
 
 app = Flask(__name__)
 
-TEST_TOKEN = "your_device_token_here"
+TEST_TOKEN = os.getenv("TEST_TOKEN")
 
 @app.route("/send", methods=["POST"])
 def send_notification():
