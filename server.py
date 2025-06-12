@@ -108,7 +108,7 @@ def get_indicators():
 def background_task():
     while True:
         try:
-            response = requests.get("http://localhost:5000/crypto/indicators?symbol=SHIBUSDT&interval=1h&limit=100")
+            response = requests.get("https://cryptomonitoring.onrender.com/crypto/indicators?symbol=SHIBUSDT&interval=1h&limit=100")
         except Exception as e:
             print("Помилка у background_task:", e)
         time.sleep(5)  # Інтервал 5 секунд
