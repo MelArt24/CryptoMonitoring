@@ -61,7 +61,12 @@ def get_indicators():
         }
 
         response = requests.get(url, params=params)
+        if response.status_code != 200:
+            return jsonify({"error": f"Binance API error: {response.text}"}), 500
+            
         klines = response.json()
+        if not klines:
+            return jsonify({"error": "No data returned for the given symbol/interval"}), 400
 
         # 2. Побудова DataFrame
         df = pd.DataFrame(klines, columns=[
@@ -82,7 +87,7 @@ def get_indicators():
 
         last = df.iloc[-1]
 
-        # 5. Якщо RSI > 68, відправити пуш
+        # 5. Якщо RSI > 25, відправити пуш
         rsi_value = round(last["rsi6"], 2)
         if rsi_value > 25:
             message = messaging.Message(
