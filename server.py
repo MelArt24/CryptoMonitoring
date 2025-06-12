@@ -1,11 +1,14 @@
 import firebase_admin
-from firebase_admin import credentials, messaging
+from firebase_admin import credentials, messaging, initialize_app
 from flask import Flask, request, jsonify
 import traceback
-
 import os
 import json
-from firebase_admin import credentials, initialize_app
+import datetime
+import time
+import requests
+import ta
+import threading
 
 # Ініціалізація Firebase Admin SDK
 cred_json = os.getenv("FIREBASE_CREDENTIALS_JSON")
