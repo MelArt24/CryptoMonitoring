@@ -80,12 +80,12 @@ def get_indicators():
 
         # 5. Якщо RSI > 68, відправити пуш
         rsi_value = round(last["rsi6"], 2)
-        if rsi_value > 40:
+        if rsi_value > 25:
             message = messaging.Message(
-                data={
-                    "title": f"{symbol.upper()} RSI Перевищив 68",
-                    "body": f"Поточний RSI(6): {rsi_value}"
-                },
+                notification=messaging.Notification(
+                    title=f"{symbol.upper()} RSI Перевищив 68",
+                    body=f"RSI: {rsi_value}, час: {datetime.datetime.now().strftime('%H:%M:%S')}"
+                ),
                 token=TEST_TOKEN
             )
             messaging.send(message)
@@ -105,6 +105,16 @@ def get_indicators():
         traceback.print_exc()
         return jsonify({"error": str(e)}), 500
 
+def background_task():
+    while True:
+        try:
+            response = requests.get("http://localhost:5000/crypto/indicators?symbol=SHIBUSDT&interval=1h&limit=100")
+        except Exception as e:
+            print("Помилка у background_task:", e)
+        time.sleep(5)  # Інтервал 5 секунд
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    thread = threading.Thread(target=background_task)
+    thread.daemon = True
+    thread.start()
+    app.run(host="0.0.0.0", port=5000, debug=False)
