@@ -9,6 +9,7 @@ import time
 import requests
 import ta
 import threading
+import pandas as pd
 
 # Ініціалізація Firebase Admin SDK
 cred_json = os.getenv("FIREBASE_CREDENTIALS_JSON")
